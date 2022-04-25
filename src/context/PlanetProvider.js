@@ -5,6 +5,9 @@ import PlanetContext from './PlanetContext';
 // https://stackoverflow.com/questions/40748397/how-to-use-children-with-react-stateless-functional-component-in-typescript
 function PlanetProvider({ children }) {
   const [data, setData] = useState();
+  const [filterByName, setFilterByName] = useState({
+    name: '',
+  });
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -19,6 +22,8 @@ function PlanetProvider({ children }) {
 
   const planetData = {
     data,
+    filterByName,
+    setFilterByName,
   };
 
   return (

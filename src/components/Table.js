@@ -3,12 +3,12 @@ import PlanetContext from '../context/PlanetContext';
 import Loading from './Loading';
 
 function Table() {
-  const { data } = useContext(PlanetContext);
+  const { data, filterByName } = useContext(PlanetContext);
   console.log(data);
 
   if (!data) return <Loading />;
 
-  const planets = data.results;
+  const planets = data.results.filter(({ name }) => name.includes(filterByName.name));
 
   return (
     <table>
