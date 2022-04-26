@@ -3,8 +3,30 @@ import PlanetContext from '../context/PlanetContext';
 import Loading from './Loading';
 
 function Table() {
-  const { data, filterByName } = useContext(PlanetContext);
+  const { data, filterByName, activeFilters } = useContext(PlanetContext);
   console.log(data);
+
+  const dataFilter = (linha) => {
+    const filteredResults = [];
+
+    activeFilters.forEach((filter) => {
+      switch (filter.comparison) {
+      case 'maior que':
+        filteredResults.push(Number(linha[filter.column]) > Number(filter.value));
+        break;
+      case 'menor que':
+        filteredResults.push(Number(linha[filter.column]) < Number(filter.value));
+        break;
+      case 'igual a':
+        filteredResults.push(Number(linha[filter.column]) === Number(filter.value));
+        break;
+      default:
+        return true;
+      }
+    });
+
+    return filteredResults.every((el) => el);
+  };
 
   if (!data) return <Loading />;
 
@@ -30,7 +52,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { planets.map((planet) => (
+        { planets.filter(dataFilter).map((planet) => (
           <tr key={ planet.name }>
             <td>{ planet.name }</td>
             <td>{ planet.rotation_period }</td>
