@@ -4,7 +4,7 @@ import Loading from './Loading';
 
 function Table() {
   const { data, filterByName, activeFilters } = useContext(PlanetContext);
-  console.log(data);
+  // console.log(data);
 
   const dataFilter = (linha) => {
     const filteredResults = [];

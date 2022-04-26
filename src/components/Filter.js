@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function Filter() {
@@ -18,9 +18,9 @@ function Filter() {
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ];
 
-  useEffect(() => {
-    console.log(activeFilters);
-  }, [activeFilters]);
+  // useEffect(() => {
+  //   console.log(activeFilters);
+  // }, [activeFilters]);
 
   const handleChange = ({ target: { name, value } }) => {
     setValueFilter({
@@ -91,7 +91,41 @@ function Filter() {
         >
           ADICIONAR
         </button>
+        <button
+          type="button"
+          onClick={ () => {
+            setActiveFilters([]);
+            setFilterByNumericValues([...filterByNumericValues, valueFilter]);
+            setValueFilter({
+              column: '',
+              comparison: '',
+              value: '',
+            });
+          } }
+          data-testid="button-remove-filters"
+        >
+          Remover todas filtragens
+        </button>
       </div>
+      {activeFilters.map((filter, index) => (
+        <div key={ index } data-testid="filter">
+          {filter.column}
+          {' '}
+          {filter.comparison}
+          {' '}
+          {filter.value}
+          <button
+            type="button"
+            onClick={ () => {
+              const cloneArray = [...activeFilters];
+              cloneArray.splice(index, 1);
+              setActiveFilters(cloneArray);
+            } }
+          >
+            x
+          </button>
+        </div>
+      ))}
     </main>
   );
 }
