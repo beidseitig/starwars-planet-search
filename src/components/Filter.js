@@ -29,6 +29,10 @@ function Filter() {
     });
   };
 
+  const filterOptions = (option) => !activeFilters.find(
+    (filter) => option === filter.column,
+  );
+
   return (
     <main>
       <div>
@@ -46,7 +50,7 @@ function Filter() {
           onChange={ handleChange }
           data-testid="column-filter"
         >
-          {columnFilterOptions.map((column) => (
+          {columnFilterOptions.filter(filterOptions).map((column) => (
             <option value={ column } key={ column }>
               {column}
             </option>
